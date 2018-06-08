@@ -24,6 +24,6 @@
         SELECT seckill_id,name,number,start_time,end_time,create_time
         FROM table_seckill
         ORDER BY create_time DESC
-        LIMIT #{offset},#{limit}
+        LIMIT #{offet},#{limit}
     </select>
 </mapper>
