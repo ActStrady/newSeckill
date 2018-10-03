@@ -16,7 +16,7 @@ public class SeckillServiceTest {
     @Autowired
     private SeckillService seckillService;
     @Test
-    public void getSeckillList() {
+    public void getSeckillLis() {
     }
 
     @Test
