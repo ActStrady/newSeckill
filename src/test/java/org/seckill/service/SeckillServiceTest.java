@@ -51,8 +51,8 @@ public class SeckillServiceTest {
                 logger.info("result={}", seckillExecution);
             } catch (RepeatKillException e) {
                 logger.error(e.getMessage());
-            } catch (SeckillCloseException e1) {
-                logger.error(e1.getMessage());
+            } catch (SeckillCloseException e) {
+                logger.error(e.getMessage());
             }
         } else {
             // 秒杀未开启
