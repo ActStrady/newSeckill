@@ -49,9 +49,7 @@ public class SeckillServiceTest {
             try {
                 SeckillExecution seckillExecution = seckillService.executeSeckill(id, phone, md5);
                 logger.info("result={}", seckillExecution);
-            } catch (RepeatKillException e) {
-                logger.error(e.getMessage());
-            } catch (SeckillCloseException e) {
+            } catch (RepeatKillException | SeckillCloseException e) {
                 logger.error(e.getMessage());
             }
         } else {
