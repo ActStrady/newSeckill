@@ -20,27 +20,37 @@ import org.springframework.util.DigestUtils;
 
 import java.util.Date;
 import java.util.List;
-// 当不知道是什么时用@Component,具体知道时可以使用 @Controller @ @Service @Repository
+/**
+ * 当不知道是什么时用@Component,具体知道时可以使用 @Controller@ @Service @Repository
+ */
 @Service
 public class SeckillServiceImpl implements SeckillService {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    // 注入service依赖 还可以使用 @Resource @Inject
-    @Autowired
-    private SeckillDao seckillDao;
+    private final SeckillDao seckillDao;
 
-    @Autowired
-    private SuccessKilledDao successKilledDao;
+    private final SuccessKilledDao successKilledDao;
 
     private final String slat = "wiuib%$^+LKLoeisui378oiU*Y*(hhHU)(0O?>:M>?<NJSHUAT^_)_)I(__++";
 
     // 系统当前时间
     private Date nowTime = new Date();
 
+    /**
+     * 注入service依赖 还可以使用 @Resource@Inject
+     * 这里使用的是构造器注入
+     * 当有多个时应该使用构造器注入
+     * */
+    @Autowired
+    public SeckillServiceImpl(SeckillDao seckillDao, SuccessKilledDao successKilledDao) {
+        this.seckillDao = seckillDao;
+        this.successKilledDao = successKilledDao;
+    }
+
     @Override
-    public List<Seckill> getSeckillList() {
-        return seckillDao.queryAll(0, 5);
+    public List<Seckill> getSeckillList(int offet, int limit) {
+        return seckillDao.queryAll(offet, limit);
     }
 
     @Override
@@ -65,17 +75,16 @@ public class SeckillServiceImpl implements SeckillService {
         String md5 = getMD5(seckillId);
         return new Exposer(true, md5, seckillId);
     }
-
-    @Override
-    @Transactional
     /**
      * 使用注解控制事物方法的优点
      * 1、团队编程风格一致
      * 2、事物操作时间要短，不要穿插其他网络操作RPC、HTTP请求，实在要有就剥离到事物方法外部
      * 3、不是所有的方法都需要事物，只有一条修改操作和只读的不需要事物控制
      */
-    public SeckillExecution executeSeckill(long seckillId, long userPhone, String md5) throws
-            SeckillException, SeckillCloseException, RepeatKillException {
+    @Override
+    @Transactional
+    public SeckillExecution executeSeckill(long seckillId, long userPhone, String md5)
+            throws SeckillException {
         if (md5 == null || !md5.equals(getMD5(seckillId))) {
             throw new SeckillException("seckill data rewrite");
         }
@@ -100,11 +109,9 @@ public class SeckillServiceImpl implements SeckillService {
                     return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilled);
                 }
             }
-        } catch (SeckillCloseException e1){
-            throw e1;
-        } catch (RepeatKillException e2){
-            throw e2;
-        }catch (Exception e) {
+        } catch (SeckillCloseException | RepeatKillException e) {
+            throw e;
+        } catch (Exception e) {
             logger.error(e.getMessage(), e);
             // 所有编译期异常 转化为运行期异常
             throw new SeckillException("seckill inner error:" + e.getMessage());
@@ -115,11 +122,6 @@ public class SeckillServiceImpl implements SeckillService {
     private String getMD5(long seckillId) {
         String base = seckillId + "/" + slat;
         //spring的一个生成MD5的方法
-        String md5 = DigestUtils.md5DigestAsHex(base.getBytes());
-        return md5;
-    }
-
-    public SeckillDao getSeckillDao() {
-        return seckillDao;
+        return DigestUtils.md5DigestAsHex(base.getBytes());
     }
 }
