@@ -36,10 +36,12 @@ public interface SeckillService {
     Exposer exportSeckillUrl(long seckillId);
 
     /**
-     *  执行秒杀操作
+     * 执行秒杀操作
      * @param seckillId 秒杀商品id
      * @param userPhone 用户手机号
      * @param md5 通过用户秒杀的id随机生成的MD5，防止作弊
+     * @return SeckillExecution 封装的秒杀执行后结果
+     * @throws SeckillException 秒杀相关业务异常
      */
     SeckillExecution executeSeckill(long seckillId, long userPhone, String md5)
             throws SeckillException;

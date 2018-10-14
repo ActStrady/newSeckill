@@ -20,8 +20,8 @@ public class SuccessKilledDaoTest {
     private SuccessKilledDao successKilledDao;
     @Test
     public void insertSuccessKilled() {
-        long id = 1001L;
-        long phone = 13856422356L;
+        long id = 1000L;
+        long phone = 13556422356L;
         int insertCount = successKilledDao.insertSuccessKilled(id, phone);
         logger.info("insertCount={}", insertCount);
     }

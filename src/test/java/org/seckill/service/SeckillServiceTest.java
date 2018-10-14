@@ -42,11 +42,11 @@ public class SeckillServiceTest {
 
     @Test
     public void SeckillLogin() {
-        long id = 1001L;
+        long id = 1000L;
         Exposer exposer = seckillService.exportSeckillUrl(id);
         if (exposer.isExposed()) {
             logger.info("exposer={}", exposer);
-            long phone = 13568951256L;
+            long phone = 18735689687L;
             String md5 = exposer.getMd5();
             try {
                 SeckillExecution seckillExecution = seckillService.executeSeckill(id, phone, md5);

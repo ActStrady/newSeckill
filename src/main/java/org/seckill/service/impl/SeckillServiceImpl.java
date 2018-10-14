@@ -75,6 +75,7 @@ public class SeckillServiceImpl implements SeckillService {
         String md5 = getMD5(seckillId);
         return new Exposer(true, md5, seckillId);
     }
+
     /**
      * 使用注解控制事物方法的优点
      * 1、团队编程风格一致
