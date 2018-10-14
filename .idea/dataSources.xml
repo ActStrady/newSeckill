@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="seckill@localhost" uuid="34cb4a20-0ea2-446d-817b-5183dbe707a4">
+    <data-source source="LOCAL" name="centos-01" uuid="4aee47ab-4030-4259-8ad2-eecf39c77bf5">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/seckill</jdbc-url>
+      <jdbc-url>jdbc:mysql://192.168.2.128:3306</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />

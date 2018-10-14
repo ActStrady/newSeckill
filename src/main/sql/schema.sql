@@ -37,3 +37,8 @@ CREATE TABLE success_killed(
 PRIMARY KEY (seckill_id, user_phone),
 KEY idx_create_time(create_time)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '秒杀成功明细表';
+
+-- 更新秒杀库存表的id=1000的开启时间和结束时间
+UPDATE table_seckill
+SET start_time = '2018-10-14 00:00:00', end_time = '2018-10-15 00:00:00'
+WHERE seckill_id = 1000;

@@ -100,11 +100,11 @@ public class SeckillServiceImpl implements SeckillService {
                     return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilled);
                 }
             }
-        } catch (SeckillCloseException e1){
+        } catch (SeckillCloseException e1) {
             throw e1;
-        } catch (RepeatKillException e2){
+        } catch (RepeatKillException e2) {
             throw e2;
-        }catch (Exception e) {
+        } catch (Exception e) {
             logger.error(e.getMessage(), e);
             // 所有编译期异常 转化为运行期异常
             throw new SeckillException("seckill inner error:" + e.getMessage());
@@ -117,9 +117,5 @@ public class SeckillServiceImpl implements SeckillService {
         //spring的一个生成MD5的方法
         String md5 = DigestUtils.md5DigestAsHex(base.getBytes());
         return md5;
-    }
-
-    public SeckillDao getSeckillDao() {
-        return seckillDao;
     }
 }
