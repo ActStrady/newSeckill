@@ -54,18 +54,18 @@
       <version>8.0.11</version>
       <scope>runtime</scope>
     </dependency>
-      <!--连接池-->
+    <!--连接池-->
+    <!--c3p0的group改为com.mchange-->
     <dependency>
-      <groupId>c3p0</groupId>
+      <groupId>com.mchange</groupId>
       <artifactId>c3p0</artifactId>
-      <version>0.9.1.2</version>
+      <version>0.9.5.2</version>
     </dependency>
-
     <!--3.DAO框架 Mybatis依赖-->
     <dependency>
       <groupId>org.mybatis</groupId>
       <artifactId>mybatis</artifactId>
-      <version>3.4.0</version>
+      <version>3.4.6</version>
     </dependency>
       <!--Mybatis本身实现的spring整合依赖-->
     <dependency>
