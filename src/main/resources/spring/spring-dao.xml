@@ -20,6 +20,8 @@
 
         <!-- c3p0连接池的私有属性 -->
         <!-- 最大连接数与最小连接数 -->
+        <!--初始连接数-->
+        <property name="initialPoolSize" value="10"/>
         <property name="maxPoolSize" value="30"/>
         <property name="minPoolSize" value="10"/>
         <!-- 关闭连接后不会自动commit,其实默认也是false -->

@@ -20,6 +20,7 @@ import org.springframework.util.DigestUtils;
 
 import java.util.Date;
 import java.util.List;
+
 /**
  * 当不知道是什么时用@Component,具体知道时可以使用 @Controller@ @Service @Repository
  */
@@ -41,7 +42,7 @@ public class SeckillServiceImpl implements SeckillService {
      * 注入service依赖 还可以使用 @Resource@Inject
      * 这里使用的是构造器注入
      * 当有多个时应该使用构造器注入
-     * */
+     */
     @Autowired
     public SeckillServiceImpl(SeckillDao seckillDao, SuccessKilledDao successKilledDao) {
         this.seckillDao = seckillDao;
@@ -61,15 +62,14 @@ public class SeckillServiceImpl implements SeckillService {
     @Override
     public Exposer exportSeckillUrl(long seckillId) {
         Seckill seckill = seckillDao.queryById(seckillId);
+        // 没有该商品
         if (seckill == null) {
             return new Exposer(false, seckillId);
         }
         Date startTime = seckill.getStartTime();
         Date endTime = seckill.getEndTime();
-        if (nowTime.getTime() < startTime.getTime()
-                || nowTime.getTime() > endTime.getTime()) {
-            return new Exposer(false, seckillId, nowTime.getTime(), startTime.getTime(),
-                    endTime.getTime());
+        if (nowTime.getTime() < startTime.getTime() || nowTime.getTime() > endTime.getTime()) {
+            return new Exposer(false, seckillId, nowTime.getTime(), startTime.getTime(), endTime.getTime());
         }
         // md5:转换特定字符串的过程，不可逆
         String md5 = getMD5(seckillId);
@@ -105,8 +105,7 @@ public class SeckillServiceImpl implements SeckillService {
                     throw new RepeatKillException("seckill repeated");
                 } else {
                     // 秒杀成功
-                    SuccessKilled successKilled = successKilledDao.queryByIdWithSeckill(seckillId,
-                            userPhone);
+                    SuccessKilled successKilled = successKilledDao.queryByIdWithSeckill(seckillId, userPhone);
                     return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilled);
                 }
             }
