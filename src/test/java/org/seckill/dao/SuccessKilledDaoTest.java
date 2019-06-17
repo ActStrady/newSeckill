@@ -1,21 +1,18 @@
 package org.seckill.dao;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seckill.entity.SuccessKilled;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:spring/spring-dao.xml"})
-
 public class SuccessKilledDaoTest {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Resource
     private SuccessKilledDao successKilledDao;
     @Test
@@ -23,7 +20,7 @@ public class SuccessKilledDaoTest {
         long id = 1000L;
         long phone = 13556422356L;
         int insertCount = successKilledDao.insertSuccessKilled(id, phone);
-        logger.info("insertCount={}", insertCount);
+        log.info("insertCount={}", insertCount);
     }
 
     @Test
@@ -31,6 +28,6 @@ public class SuccessKilledDaoTest {
         long id = 1001L;
         long phone = 13856422356L;
         SuccessKilled successKilled = successKilledDao.queryByIdWithSeckill(id, phone);
-        logger.info("successKilled={}", successKilled);
+        log.info("successKilled={}", successKilled);
     }
 }
