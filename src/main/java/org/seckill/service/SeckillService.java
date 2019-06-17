@@ -14,11 +14,11 @@ import java.util.List;
 public interface SeckillService {
     /**
      * 查询所有秒杀纪录
-     * @param offet 起始位置
+     * @param offset 起始位置
      * @param limit 长度
      * @return 所有秒杀纪录
      */
-    List<Seckill> getSeckillList(int offet, int limit);
+    List<Seckill> getSeckillList(int offset, int limit);
 
     /**
      * 查询单个秒杀纪录

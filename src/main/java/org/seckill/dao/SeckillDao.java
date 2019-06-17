@@ -26,9 +26,9 @@ public interface SeckillDao {
     /**
      * 根据偏移量查询秒杀商品列表
      * java没有不能保存形参，会识别成arg0，arg1
-     * @param offet 起始位置
+     * @param offset 起始位置
      * @param limit 长度
      * @return 秒杀商品列表
      */
-    List<Seckill> queryAll(@Param("offet") int offet, @Param("limit") int limit);
+    List<Seckill> queryAll(@Param("offset") int offset, @Param("limit") int limit);
 }
