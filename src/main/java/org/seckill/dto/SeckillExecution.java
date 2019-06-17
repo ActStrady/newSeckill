@@ -12,17 +12,16 @@ public class SeckillExecution {
 
     private long seckillId;
 
-//  秒杀执行结果状态
+    // 秒杀执行结果状态
     private int state;
 
-//  状态表示
+    // 状态表示
     private String stateInfo;
 
-//  秒杀成功对象
+    // 秒杀成功对象
     private SuccessKilled successKilled;
 
-    public SeckillExecution(long seckillId, SeckillStatEnum statEnum, SuccessKilled
-            successKilled) {
+    public SeckillExecution(long seckillId, SeckillStatEnum statEnum, SuccessKilled successKilled) {
         this.seckillId = seckillId;
         this.state = statEnum.getState();
         this.stateInfo = statEnum.getStateInfo();
