@@ -27,13 +27,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title text-center">
-                    <span class="glyphicon glyphicon-phone"></span>秒杀电话：
+                    <span class="glyphicon glyphicon-phone"></span>
+
+                    <label for="killPhoneKey">秒杀电话：</label>
                 </h3>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-xs-8 col-xs-offset-2">
-                        <label for="killPhoneKey"></label>
                         <input type="text" class="form-control" id="killPhoneKey"
                                name="killPhone" placeholder="填写手机号">
                     </div>
@@ -42,7 +43,7 @@
             <div class="modal-footer">
                 <span class="glyphicon" id="killPhoneMessage"></span>
                 <button class="btn btn-success" id="killPhoneBtn" type="button">
-                    <span class="glyphicon glyphicon-phone"></span>Submit
+                    <span class="glyphicon glyphicon-phone">Submit</span>
                 </button>
             </div>
         </div>
@@ -56,4 +57,16 @@
 <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <%-- jq 倒计时插件 --%>
 <script src="https://cdn.bootcss.com/jquery.countdown/2.2.0/jquery.countdown.min.js"></script>
+<%-- 秒杀交互逻辑 --%>
+<script src="${pageContext.request.contextPath}/resources/script/seckill.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        // 使用el表达式子传入到js里
+        seckill.detail.init({
+            seckillId: ${seckill.seckillId},
+            startTime: ${seckill.startTime.time},
+            endTime: ${seckill.endTime.time}
+        });
+    });
+</script>
 </html>
