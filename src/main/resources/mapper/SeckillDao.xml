@@ -5,7 +5,7 @@
 <mapper namespace="org.seckill.dao.SeckillDao">
     <update id="reduceNumber">
         UPDATE
-          table_seckill
+          seckill.table_seckill
         SET
           number = number - 1
         WHERE seckill_id = #{seckillId}
@@ -16,14 +16,14 @@
 
     <select id="queryById" parameterType="long" resultType="Seckill">
         SELECT seckill_id,name,number,start_time,end_time,create_time
-        FROM table_seckill
+        FROM seckill.table_seckill
         WHERE seckill_id = #{seckillId}
     </select>
 
     <select id="queryAll" resultType="Seckill">
         SELECT seckill_id,name,number,start_time,end_time,create_time
-        FROM table_seckill
+        FROM seckill.table_seckill
         ORDER BY create_time DESC
-        LIMIT #{offet},#{limit}
+        LIMIT #{offset},#{limit}
     </select>
 </mapper>
