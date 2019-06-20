@@ -15,7 +15,7 @@
         <div class="panel-body">
             <h2 class="text-danger">
                 <span class="glyphicon glyphicon-time"></span>
-                <%-- 倒计时 --%>
+                <%-- 各种信息 --%>
                 <span class="glyphicon" id="seckill-box"></span>
             </h2>
         </div>

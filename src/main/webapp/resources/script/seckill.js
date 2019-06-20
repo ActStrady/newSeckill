@@ -5,10 +5,55 @@ const seckill = {
     URL: {
         now: function () {
             return '/seckill/time/now';
+        },
+        exposer: function (seckillId) {
+            return '/seckill/' + seckillId + '/exposer';
+        },
+        execution: function (seckillId, md5) {
+            return '/seckill/' + seckillId + '/' + md5 + '/execution'
         }
     },
-    handleSeckill: function () {
-        // 处理秒杀逻辑
+    handleSeckill: function (seckillId, node) {
+        // 添加一个隐藏的秒杀按钮
+        node.hide().html('<button class="btn btn-primary btn-lg" id="killBtn">开始秒杀</button>');
+        // 获取秒杀地址
+        $.post(seckill.URL.exposer(seckillId), {}, function (result) {
+            if (result && result.success) {
+                const exposer = result.data;
+                // 秒杀地址获取成功
+                if (exposer['exposed']) {
+                    // 获取md5
+                    const md5 = exposer['md5'];
+                    // 按钮只能点击一次
+                    $('#killBtn').one('click', function () {
+                        // 按钮设置为不可点
+                        $(this).addClass('disabled');
+                        // 发送秒杀请求
+                        $.post(seckill.URL.execution(seckillId, md5), {}, function (result) {
+                            const killResult = result.data;
+                            const stateInfo = killResult['stateInfo'];
+                            // 秒杀成功
+                            if (result && result.success) {
+                                node.html('<span class="label label-success">' + stateInfo + '</span>');
+                            } else if (result) {
+                                node.html('<span class="label label-warning">' + stateInfo + '</span>');
+                            } else {
+                                console.log('result:' + result);
+                            }
+                        });
+                    });
+                } else {
+                    // 处理服务器与客户端出现时间偏差，以服务器时间为准
+                    const nowTime = exposer['nowTime'];
+                    const startTime = exposer['startTime'];
+                    const endTime = exposer['endTime'];
+                    seckill.countdown(seckillId, nowTime, startTime, endTime);
+                }
+            } else {
+                console.log('result:' + result);
+            }
+        });
+        node.show();
     },
     // 验证手机号isNaN判断是否数字
     validatePhone: function (phone) {
@@ -21,20 +66,22 @@ const seckill = {
         const seckillBox = $('#seckill-box');
         if (nowTime > endTime) {
             // 秒杀结束
-            seckillBox.html('秒杀结束！');
+            seckillBox.html('<span class="label label-warning">秒杀结束!</span>');
         } else if (nowTime < startTime) {
             // 秒杀未开启，倒计时
             // 倒计时开始时间，加一秒来控制网络等问题
-            const killTime = new Date(startTime + 1000);
+            const killTime = new Date(startTime);
             seckillBox.countdown(killTime, function (event) {
                 const format = event.strftime('秒杀倒计时: %D天: %H时: %M分: %S秒');
                 seckillBox.html(format);
                 // 倒计时结束的回调函数
             }).on('finish.countdown', function () {
                 // 获取秒杀地址，执行秒杀逻辑
+                seckill.handleSeckill(seckillId, seckillBox);
             });
         } else {
-            seckill.handleSeckill();
+            // 执行秒杀
+            seckill.handleSeckill(seckillId, seckillBox);
         }
     },
     detail: {
