@@ -81,7 +81,7 @@ public class SeckillController {
      * @param seckillId 秒杀id
      * @return json数据，秒杀地址
      */
-    @RequestMapping(value = "/seckill/{seckillId}/exposer",
+    @RequestMapping(value = "/{seckillId}/exposer",
             method = RequestMethod.POST,
             produces = "application/json;charset=UTF-8")
     @ResponseBody
@@ -138,6 +138,7 @@ public class SeckillController {
 
     /**
      * 当前时间
+     *
      * @return 当前时间
      */
     @RequestMapping(value = "/time/now",
