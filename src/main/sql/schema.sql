@@ -46,10 +46,10 @@ CREATE TABLE seckill.success_killed
 
 -- 更新秒杀库存表的id=1000的开启时间和结束时间
 UPDATE seckill.table_seckill
-SET start_time = '2019-6-19 00:00:00',
-    end_time   = '2019-6-20 00:00:00'
+SET start_time = '2019-6-20 00:00:00',
+    end_time   = '2019-6-21 00:00:00'
 WHERE seckill_id = 1000;
 UPDATE seckill.table_seckill
-SET start_time = '2019-6-19 20:15:00',
+SET start_time = '2019-6-20 17:35:00',
     end_time   = '2019-6-20 00:00:00'
 WHERE seckill_id = 1001;
