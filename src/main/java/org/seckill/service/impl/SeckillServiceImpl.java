@@ -33,11 +33,6 @@ public class SeckillServiceImpl implements SeckillService {
     private final SuccessKilledDao successKilledDao;
 
     /**
-     * 系统当前时间
-     */
-    private Date nowTime = new Date();
-
-    /**
      * 注入service依赖 还可以使用 @Resource@Inject
      * 这里使用的是构造器注入
      * 当有多个时应该使用构造器注入
@@ -60,6 +55,7 @@ public class SeckillServiceImpl implements SeckillService {
 
     @Override
     public Exposer exportSeckillUrl(long seckillId) {
+        Date nowTime = new Date();
         Seckill seckill = seckillDao.queryById(seckillId);
         // 没有该商品
         if (seckill == null) {
@@ -85,15 +81,16 @@ public class SeckillServiceImpl implements SeckillService {
     @Transactional(rollbackFor = Exception.class)
     public SeckillExecution executeSeckill(long seckillId, long userPhone, String md5)
             throws SeckillException {
+        Date nowTime = new Date();
         try {
             if (md5 == null || !md5.equals(getMd5(seckillId))) {
-                throw new SeckillException("seckill data rewrite");
+                throw new RewriteException("seckill data rewrite");
             }
             // 执行秒杀逻辑：减库存 + 纪录购买行为
             // 减库存
             int updateCount = seckillDao.reduceNumber(seckillId, nowTime);
             if (updateCount <= 0) {
-                //没有更新到纪录，秒杀结束
+                //没库存了，秒杀结束
                 throw new SeckillCloseException("seckill is closed");
             } else {
                 // 纪录购买行为

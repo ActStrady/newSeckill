@@ -3,12 +3,9 @@
 DROP DATABASE IF EXISTS seckill;
 CREATE DATABASE seckill;
 
--- 使用数据库
-USE seckill;
-
 -- 创建秒杀库存表
-DROP TABLE IF EXISTS table_seckill;
-CREATE TABLE table_seckill
+DROP TABLE IF EXISTS seckill.table_seckill;
+CREATE TABLE seckill.table_seckill
 (
     `seckill_id`  BIGINT       NOT NULL AUTO_INCREMENT COMMENT '商品库存id',
     `name`        VARCHAR(120) NOT NULL COMMENT '商品名称',
@@ -25,7 +22,7 @@ CREATE TABLE table_seckill
   DEFAULT CHARSET = utf8 COMMENT '秒杀库存表';
 
 -- 初始化数据
-INSERT INTO table_seckill(name, number, start_time, end_time)
+INSERT INTO seckill.table_seckill(name, number, start_time, end_time)
     VALUE
     ('2000元秒杀iPhone X', 10, '2018-03-10 00:00:00', '2018-03-11 00:00:00'),
     ('1500元秒杀iPhone 8', 30, '2018-03-15 00:00:00', '2018-03-16 00:00:00'),
@@ -35,8 +32,8 @@ INSERT INTO table_seckill(name, number, start_time, end_time)
 
 -- 秒杀成功明细表
 -- 用户登录认证相关信息
-DROP TABLE IF EXISTS success_killed;
-CREATE TABLE success_killed
+DROP TABLE IF EXISTS seckill.success_killed;
+CREATE TABLE seckill.success_killed
 (
     `seckill_id`  BIGINT    NOT NULL COMMENT '秒杀商品id',
     `user_phone`  BIGINT    NOT NULL COMMENT '用户手机号',
@@ -49,6 +46,10 @@ CREATE TABLE success_killed
 
 -- 更新秒杀库存表的id=1000的开启时间和结束时间
 UPDATE seckill.table_seckill
-SET start_time = '2018-10-14 00:00:00',
-    end_time   = '2019-10-15 00:00:00'
+SET start_time = '2019-6-20 00:00:00',
+    end_time   = '2019-6-21 00:00:00'
 WHERE seckill_id = 1000;
+UPDATE seckill.table_seckill
+SET start_time = '2019-6-20 17:35:00',
+    end_time   = '2019-6-20 00:00:00'
+WHERE seckill_id = 1001;
