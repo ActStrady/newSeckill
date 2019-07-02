@@ -58,7 +58,7 @@
         <dependency>
             <groupId>com.mchange</groupId>
             <artifactId>c3p0</artifactId>
-            <version>0.9.5.2</version>
+            <version>0.9.5.4</version>
         </dependency>
 
         <!--3.DAO框架 Mybatis依赖-->
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.8</version>
+            <version>2.9.9</version>
         </dependency>
         <!--servlet-->
         <dependency>
@@ -98,27 +98,27 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>4.3.11.RELEASE</version>
+            <version>4.3.23.RELEASE</version>
         </dependency>
         <!--声明式事物-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
-            <version>4.3.11.RELEASE</version>
+            <version>4.3.23.RELEASE</version>
         </dependency>
 
         <!--springmvc项目主要的一个依赖，包含其他的包，如web，context等-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>4.3.11.RELEASE</version>
+            <version>4.3.23.RELEASE</version>
         </dependency>
 
         <!-- springtest相关依赖 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>4.3.11.RELEASE</version>
+            <version>4.3.23.RELEASE</version>
         </dependency>
 
         <!--简化代码的一个好用东西-->
