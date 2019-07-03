@@ -62,11 +62,14 @@ public class SeckillServiceImpl implements SeckillService {
         // 缓存里没有就从数据库里取，并放到缓存里
         if (null == seckill) {
             seckill = seckillDao.queryById(seckillId);
-            redisDao.putSeckill(seckill);
-        }
-        // 没有该商品
-        if (seckill == null) {
-            return new Exposer(false, seckillId);
+            // 没有该商品
+            if (seckill == null) {
+                return new Exposer(false, seckillId);
+            } else {
+                // 写入缓存
+                redisDao.putSeckill(seckill);
+            }
+
         }
         Date startTime = seckill.getStartTime();
         Date endTime = seckill.getEndTime();
@@ -123,6 +126,7 @@ public class SeckillServiceImpl implements SeckillService {
 
     /**
      * 生成MD5串
+     *
      * @param seckillId 秒杀商品id
      * @return MD5串
      */
