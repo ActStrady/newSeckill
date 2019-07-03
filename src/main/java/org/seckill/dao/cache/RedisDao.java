@@ -5,7 +5,6 @@ import com.dyuproject.protostuff.ProtobufIOUtil;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
 import lombok.extern.slf4j.Slf4j;
 import org.seckill.entity.Seckill;
-import org.springframework.stereotype.Repository;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 

@@ -3,6 +3,7 @@ package org.seckill.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.seckill.dao.SeckillDao;
 import org.seckill.dao.SuccessKilledDao;
+import org.seckill.dao.cache.RedisDao;
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.entity.Seckill;
@@ -27,10 +28,9 @@ import java.util.List;
 @Slf4j
 @Service
 public class SeckillServiceImpl implements SeckillService {
-
     private final SeckillDao seckillDao;
-
     private final SuccessKilledDao successKilledDao;
+    private final RedisDao redisDao;
 
     /**
      * 注入service依赖 还可以使用 @Resource@Inject
@@ -38,9 +38,10 @@ public class SeckillServiceImpl implements SeckillService {
      * 当有多个时应该使用构造器注入
      */
     @Autowired
-    public SeckillServiceImpl(SeckillDao seckillDao, SuccessKilledDao successKilledDao) {
+    public SeckillServiceImpl(SeckillDao seckillDao, SuccessKilledDao successKilledDao, RedisDao redisDao) {
         this.seckillDao = seckillDao;
         this.successKilledDao = successKilledDao;
+        this.redisDao = redisDao;
     }
 
     @Override
@@ -56,7 +57,13 @@ public class SeckillServiceImpl implements SeckillService {
     @Override
     public Exposer exportSeckillUrl(long seckillId) {
         Date nowTime = new Date();
-        Seckill seckill = seckillDao.queryById(seckillId);
+        // redis缓存里取
+        Seckill seckill = redisDao.getSeckill(seckillId);
+        // 缓存里没有就从数据库里取，并放到缓存里
+        if (null == seckill) {
+            seckill = seckillDao.queryById(seckillId);
+            redisDao.putSeckill(seckill);
+        }
         // 没有该商品
         if (seckill == null) {
             return new Exposer(false, seckillId);
