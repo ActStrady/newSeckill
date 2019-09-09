@@ -18,7 +18,7 @@ public interface SeckillService {
      * @param limit 长度
      * @return 所有秒杀纪录
      */
-    List<Seckill> getSeckillList(int offset, int limit);
+        List<Seckill> getSeckillList(int offset, int limit);
 
     /**
      * 查询单个秒杀纪录
