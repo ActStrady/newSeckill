@@ -22,4 +22,14 @@
         <!-- 匹配所有请求 -->
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <!--配置监听器-->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring/spring-*.xml</param-value>
+    </context-param>
 </web-app>
