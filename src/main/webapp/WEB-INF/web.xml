@@ -13,7 +13,7 @@
         <!-- 配置spring需要加载的配置文件， 包含spring-dao spring-service spring_web -->
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring/spring-*.xml</param-value>
+            <param-value>classpath:spring/spring-web.xml</param-value>
         </init-param>
     </servlet>
 

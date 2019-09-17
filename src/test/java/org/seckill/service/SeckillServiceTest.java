@@ -18,7 +18,8 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
         "classpath:spring/spring-dao.xml",
-        "classpath:spring/spring-service.xml"})
+        "classpath:spring/spring-service.xml",
+        "classpath:spring/spring-aop.xml"})
 public class SeckillServiceTest {
     @Autowired
     private SeckillService seckillService;
@@ -28,7 +29,7 @@ public class SeckillServiceTest {
         int offet = 0;
         int limit = 5;
         List<Seckill> seckillList = seckillService.getSeckillList(offet, limit);
-        log.info("seckillList={}", seckillList);
+        // log.info("seckillList={}", seckillList);
     }
 
     @Test

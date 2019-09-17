@@ -116,12 +116,25 @@
             <version>4.3.23.RELEASE</version>
         </dependency>
 
-        <!-- springtest相关依赖 -->
+        <!-- spring test相关依赖 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>4.3.23.RELEASE</version>
         </dependency>
+
+        <!-- aop依赖的三方包，注意版本问题 -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.4</version>
+        </dependency>
+
 
         <!--简化代码的一个好用东西-->
         <dependency>
