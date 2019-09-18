@@ -3,15 +3,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx.xsd
-        http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop.xsd">
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
     <!-- 扫描service包下所有使用注解的类型 -->
     <context:component-scan base-package="org.seckill.service"/>
 
@@ -22,5 +19,5 @@
     </bean>
 
     <!-- 配置基于注解的声明式事物，默认使用注解来管理事物行为 -->
-    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <tx:annotation-driven/>
 </beans>
