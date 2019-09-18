@@ -9,6 +9,7 @@ import org.seckill.enums.SeckillStatEnum;
 import org.seckill.exception.RepeatKillException;
 import org.seckill.exception.RewriteException;
 import org.seckill.exception.SeckillCloseException;
+import org.seckill.exception.SoldOutException;
 import org.seckill.service.SeckillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -127,6 +128,10 @@ public class SeckillController {
         } catch (RewriteException e) {
             // 数据篡改
             SeckillExecution execution = new SeckillExecution(seckillId, SeckillStatEnum.DATA_REWRITE);
+            return new SeckillResult<>(false, execution);
+        } catch (SoldOutException e) {
+            // 数据篡改
+            SeckillExecution execution = new SeckillExecution(seckillId, SeckillStatEnum.SOLD_OUT);
             return new SeckillResult<>(false, execution);
         } catch (Exception e) {
             // 其他异常
