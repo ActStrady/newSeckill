@@ -50,13 +50,6 @@
     </div>
 </div>
 </body>
-<%-- cdn加速的jq和bootstrap --%>
-<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<%-- jq cookie插件 --%>
-<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<%-- jq 倒计时插件 --%>
-<script src="https://cdn.bootcss.com/jquery.countdown/2.2.0/jquery.countdown.min.js"></script>
 <%-- 秒杀交互逻辑 --%>
 <script src="${pageContext.request.contextPath}/resources/script/seckill.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -69,4 +62,11 @@
         });
     });
 </script>
+<%-- cdn加速的jq和bootstrap --%>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<%-- jq cookie插件 --%>
+<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<%-- jq 倒计时插件 --%>
+<script src="https://cdn.bootcss.com/jquery.countdown/2.2.0/jquery.countdown.min.js"></script>
 </html>

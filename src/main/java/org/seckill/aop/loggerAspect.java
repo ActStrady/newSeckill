@@ -2,10 +2,8 @@ package org.seckill.aop;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
+import org.seckill.exception.SeckillException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,16 +17,27 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class loggerAspect {
     @Pointcut("execution(* org.seckill.service.*.*(..))")
-    public void all() {}
-
-    @Before(value = "all()")
-    public void before(JoinPoint joinPoint) {
-        joinPoint.getArgs();
-        log.info("测试一下");
+    public void service() {
     }
 
-    @AfterReturning(value = "all()")
-    public void after() {
-        log.info("测试两下");
+    @Before("service()")
+    public void before(JoinPoint jp) {
+        String className = jp.getTarget().getClass().getName();
+        String methodName = jp.getSignature().getName();
+        log.info(className + "." + methodName + " - Successful Start - args={}", jp.getArgs());
+    }
+
+    @AfterReturning(value = "service()", returning = "retVal")
+    public void after(JoinPoint jp, Object retVal) {
+        String className = jp.getTarget().getClass().getName();
+        String methodName = jp.getSignature().getName();
+        log.info(className + "." + methodName + " - Successful End - return={}", retVal);
+    }
+
+    @AfterThrowing(pointcut = "service()", throwing = "ex")
+    public void error(JoinPoint jp, SeckillException ex) {
+        String className = jp.getTarget().getClass().getName();
+        String methodName = jp.getSignature().getName();
+        log.error(className + "." + methodName + " - " + ex.getMessage(), ex);
     }
 }

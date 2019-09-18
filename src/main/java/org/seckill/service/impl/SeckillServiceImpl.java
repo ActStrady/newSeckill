@@ -9,14 +9,10 @@ import org.seckill.dto.SeckillExecution;
 import org.seckill.entity.Seckill;
 import org.seckill.entity.SuccessKilled;
 import org.seckill.enums.SeckillStatEnum;
-import org.seckill.exception.RepeatKillException;
-import org.seckill.exception.RewriteException;
-import org.seckill.exception.SeckillCloseException;
-import org.seckill.exception.SeckillException;
+import org.seckill.exception.*;
 import org.seckill.service.SeckillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
 import java.util.Date;
@@ -88,9 +84,7 @@ public class SeckillServiceImpl implements SeckillService {
      * 3、不是所有的方法都需要事物，只有一条修改操作和只读的不需要事物控制
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public SeckillExecution executeSeckill(long seckillId, long userPhone, String md5)
-            throws SeckillException {
+    public SeckillExecution executeSeckill(long seckillId, long userPhone, String md5) {
         Date nowTime = new Date();
         try {
             if (md5 == null || !md5.equals(getMd5(seckillId))) {
@@ -101,7 +95,7 @@ public class SeckillServiceImpl implements SeckillService {
             int updateCount = seckillDao.reduceNumber(seckillId, nowTime);
             if (updateCount <= 0) {
                 //没库存了，秒杀结束
-                throw new SeckillCloseException("seckill is closed");
+                throw new SoldOutException("product is sold out");
             } else {
                 // 纪录购买行为
                 int insertCount = successKilledDao.insertSuccessKilled(seckillId, userPhone);
@@ -114,11 +108,9 @@ public class SeckillServiceImpl implements SeckillService {
                     return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilled);
                 }
             }
-        } catch (SeckillCloseException | RepeatKillException | RewriteException e) {
-            log.error(e.getMessage(), e);
+        } catch (SeckillCloseException | RepeatKillException | RewriteException | SoldOutException e)  {
             throw e;
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
             // 所有编译期异常 转化为运行期异常
             throw new SeckillException("seckill inner error:" + e.getMessage());
         }
