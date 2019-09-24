@@ -11,13 +11,21 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
     <!-- 开启springMVC注解模式 -->
     <!-- 简化了配置
-        (1)自动注册DefaultAnnotationHandlerMapping， AnnotationMethodHandlerAdapter
-        (2)提供一系列：数据绑定、数字和日期的format：@NumberFormat、@DateTimeFormat，xml、json的默认读写支持
-     -->
+    (1)自动注册DefaultAnnotationHandlerMapping， AnnotationMethodHandlerAdapter
+    (2)提供一系列：数据绑定、数字和日期的format：@NumberFormat、@DateTimeFormat，xml、json的默认读写支持
+    -->
     <mvc:annotation-driven/>
-
+    <!-- 扫描web相关bean -->
+    <context:component-scan base-package="org.seckill.web"/>
     <!-- 加载静态资源 -->
     <mvc:default-servlet-handler/>
+    
+    <!--配置fastjson-->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
     <!-- 视图解析器 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -29,6 +37,4 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <!-- 扫描web相关bean -->
-    <context:component-scan base-package="org.seckill.web"/>
 </beans>

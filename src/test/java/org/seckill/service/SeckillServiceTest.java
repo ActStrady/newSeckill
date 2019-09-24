@@ -19,7 +19,7 @@ import java.util.List;
 @ContextConfiguration({
         "classpath:spring/spring-dao.xml",
         "classpath:spring/spring-service.xml",
-        "classpath:spring/spring-aop.xml"})
+        "classpath:spring/spring.xml"})
 public class SeckillServiceTest {
     @Autowired
     private SeckillService seckillService;
