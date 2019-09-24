@@ -2,36 +2,65 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+        http://www.springframework.org/schema/context/spring-context.xsd">
     <!-- 配置整合mybatis过程 -->
     <!-- 1.配置数据库相关参数 可以使用${url}来配置properties属性 -->
     <context:property-placeholder location="classpath:jdbc.properties"/>
     <!-- 2.数据库连接池 -->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <!-- 配置连接池属性 -->
-        <property name="driverClass" value="${jdbc.driver}"/>
-        <property name="jdbcUrl" value="${jdbc.url}"/>
-        <property name="user" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
+    <!--c3p0-->
+    <!--<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">-->
+    <!--    &lt;!&ndash; 配置连接池属性 &ndash;&gt;-->
+    <!--    <property name="driverClass" value="${jdbc.driver}"/>-->
+    <!--    <property name="jdbcUrl" value="${jdbc.url}"/>-->
+    <!--    <property name="user" value="${jdbc.username}"/>-->
+    <!--    <property name="password" value="${jdbc.password}"/>-->
 
-        <!-- c3p0连接池的私有属性 -->
-        <!-- 最大连接数与最小连接数 -->
-        <!--初始连接数-->
-        <property name="initialPoolSize" value="10"/>
-        <property name="maxPoolSize" value="30"/>
-        <property name="minPoolSize" value="10"/>
-        <!-- 关闭连接后不会自动commit,其实默认也是false -->
-        <property name="autoCommitOnClose" value="false"/>
-        <!-- 获取连接超时时间 -->
-        <property name="checkoutTimeout" value="3000"/>
-        <!-- 当获取连接失败重试次数 -->
-        <property name="acquireRetryAttempts" value="2"/>
+    <!--    &lt;!&ndash; c3p0连接池的私有属性 &ndash;&gt;-->
+    <!--    &lt;!&ndash; 最大连接数与最小连接数 &ndash;&gt;-->
+    <!--    &lt;!&ndash;初始连接数&ndash;&gt;-->
+    <!--    <property name="initialPoolSize" value="10"/>-->
+    <!--    <property name="maxPoolSize" value="30"/>-->
+    <!--    <property name="minPoolSize" value="10"/>-->
+    <!--    &lt;!&ndash; 关闭连接后不会自动commit,其实默认也是false &ndash;&gt;-->
+    <!--    <property name="autoCommitOnClose" value="false"/>-->
+    <!--    &lt;!&ndash; 获取连接超时时间 &ndash;&gt;-->
+    <!--    <property name="checkoutTimeout" value="3000"/>-->
+    <!--    &lt;!&ndash; 当获取连接失败重试次数 &ndash;&gt;-->
+    <!--    <property name="acquireRetryAttempts" value="2"/>-->
+    <!--</bean>-->
+    <!--阿里的数据库连接池-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="stat" />
+
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="maxActive" value="30" />
+        <property name="initialSize" value="10" />
+        <property name="minIdle" value="10" />
+
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="60000" />
+
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+        <property name="minEvictableIdleTimeMillis" value="300000" />
+
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+
+        <property name="poolPreparedStatements" value="true" />
+        <property name="maxOpenPreparedStatements" value="20" />
+
+        <property name="asyncInit" value="true" />
     </bean>
-
     <!-- 3.配置sqlSessionFactory对象 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!-- 注入数据库连接池 -->
