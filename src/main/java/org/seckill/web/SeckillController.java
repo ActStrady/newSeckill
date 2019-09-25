@@ -51,6 +51,7 @@ public class SeckillController {
     public String list(Model model) {
         List<Seckill> seckillList = seckillService.getSeckillList(0, 5);
         model.addAttribute("list", seckillList);
+        log.info("seckillList:" + seckillList);
         return "list";
     }
 

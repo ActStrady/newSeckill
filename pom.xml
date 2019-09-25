@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
@@ -39,7 +38,12 @@
             <artifactId>logback-classic</artifactId>
             <version>1.2.3</version>
         </dependency>
-
+        <!--实现controller的日志打印-->
+        <dependency>
+            <groupId>org.logback-extensions</groupId>
+            <artifactId>logback-ext-spring</artifactId>
+            <version>0.1.5</version>
+        </dependency>
         <!--2.数据库相关依赖-->
         <!--驱动-->
         <dependency>
@@ -49,7 +53,7 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!--连接池-->
+        <!--c3p0连接池-->
         <!--&lt;!&ndash;c3p0的group改为com.mchange&ndash;&gt;-->
         <!--<dependency>-->
         <!--    <groupId>com.mchange</groupId>-->

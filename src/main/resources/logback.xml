@@ -1,15 +1,137 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<!--debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。-->
+<!--scan代表配置文件如果发生改变，将会被重新加载，默认值为true-->
+<!--scanPeriod为监测配置文件是否有修改的时间间隔-->
+<configuration debug="true" scan="true" scanPeriod="30 seconds">
+    <!--用来设置上下文名称，每个logger都关联到logger上下文，默认上下文名称为default 用于区分不同应用程序的记录-->
+    <contextName>seckill</contextName>
+    <!--用来定义变量值，它有两个属性name和value，通过<property>定义的值会被插入到logger上下文中，可以使“${}”来使用变量-->
+    <property name="error-log" value="../logs/seckillError"/>
+    <property name="service-log" value="../logs/seckillService"/>
+    <property name="controller-log" value="../logs/seckillController"/>
 
+    <!--ConsoleAppender 用于在屏幕上输出日志-->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <!-- encoders are assigned the type
-             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--%d是时间，%thread 是线程, %-5level -代表左对齐， %logger{50} log名通常为类名， %msg 打印的信息， %n换行-->
+            <!--p和level一样 c和logger一样-->
+            <!--@blue是配置颜色-->
+            <pattern>%blue(%d{HH:mm:ss.SSS}) [%cyan(%t)] %yellow(%c{50}) [%highlight(%-5p)] - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <root level="debug">
-        <appender-ref ref="STDOUT" />
+    <!--FileAppender文件日志-->
+    <!--<appender name="FILE" class="ch.qos.logback.core.FileAppender">-->
+    <!--    <file>seckill.log</file>-->
+    <!--    <encoder>-->
+    <!--        <pattern>%date %level [%thread] %logger{10} [%file : %line] %msg%n</pattern>-->
+    <!--    </encoder>-->
+    <!--    &lt;!&ndash;单独定义级别&ndash;&gt;-->
+    <!--    &lt;!&ndash;级别TRACE, DEBUG, INFO, WARN, ERROR依次变得严重&ndash;&gt;-->
+    <!--    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+    <!--        <level>WARN</level>-->
+    <!--    </filter>-->
+    <!--</appender>-->
+
+    <!--RollingFileAppender滚动记录文件-->
+    <!--ERROR级别日志-->
+    <appender name="ERR-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--如果是 true，日志被追加到文件结尾，如果是false，清空现存文件，默认是true-->
+        <append>true</append>
+        <!--文件位置-->
+        <file>${error-log}.log</file>
+        <!--按照时间的滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--按天滚动-->
+            <FileNamePattern>${error-log}.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <!--日志保留时间，单位天-->
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--%d是时间，%thread 是线程, %-5level -代表左对齐， %logger{50} log名通常为类名， %msg 打印的信息， %n换行-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!--单独定义级别-->
+        <!--级别TRACE, DEBUG, INFO, WARN, ERROR依次变得严重-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+    <!--service级别-->
+    <appender name="SERVICE-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--如果是 true，日志被追加到文件结尾，如果是false，清空现存文件，默认是true-->
+        <append>true</append>
+        <!--文件位置-->
+        <file>${service-log}.log</file>
+        <!--按照时间的滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--按天滚动-->
+            <FileNamePattern>${service-log}.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <!--日志保留时间，单位天-->
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!--filter过滤器存在，执行一个过滤器会有返回DENY，NEUTRAL，ACCEPT三个枚举值中的一个-->
+        <!--DENY：日志将立即被抛弃不再经过其他过滤器-->
+        <!--NEUTRAL：有序列表里的下个过滤器过接着处理日志-->
+        <!--ACCEPT：日志会被立即处理，不再经过剩余过滤器-->
+        <!--过滤掉ERROR-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <!-- 如果命中就禁止这条日志 -->
+            <onMatch>DENY</onMatch>
+            <!-- 如果没有命中就使用这条规则 -->
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+    </appender>
+    <appender name="CONTROLLER-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--如果是 true，日志被追加到文件结尾，如果是false，清空现存文件，默认是true-->
+        <append>true</append>
+        <!--文件位置-->
+        <file>${controller-log}.log</file>
+        <!--按照时间的滚动策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--按天滚动-->
+            <FileNamePattern>${controller-log}.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <!--日志保留时间，单位天-->
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!--单独定义级别-->
+        <!--级别TRACE, DEBUG, INFO, WARN, ERROR依次变得严重-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <!-- 如果命中就禁止这条日志 -->
+            <onMatch>DENY</onMatch>
+            <!-- 如果没有命中就使用这条规则 -->
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+    </appender>
+
+    <!--根据包来进行文件隔离-->
+    <!--service-->
+    <!--name用来指定受此logger约束的某一个包或者具体的某一个类-->
+    <!--level用来指定级别，不设置继承root-->
+    <!--additivity:用来描述是否向上级logger传递打印信息, 默认是true-->
+    <logger name="org.seckill.service.impl" level="DEBUG" additivity="false">
+        <appender-ref ref="SERVICE-FILE"/>
+        <appender-ref ref="ERR-FILE"/>
+    </logger>
+    <!--controller-->
+    <logger name="org.seckill.web" level="DEBUG" additivity="false">
+        <appender-ref ref="CONTROLLER-FILE"/>
+        <appender-ref ref="ERR-FILE"/>
+    </logger>
+    <!--根日志设置要启动的appender，设定默认输出级别是TRACE-->
+    <root level="TRACE">
+        <appender-ref ref="STDOUT"/>
+        <!--<appender-ref ref="FILE"/>-->
     </root>
 </configuration>
